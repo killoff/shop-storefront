@@ -1,6 +1,5 @@
 {
     "name": "drinks/storefront",
-    "type": "project",
     "description": "Custom storefront for Magento2 application",
     "license": "proprietary",
     "require": {
