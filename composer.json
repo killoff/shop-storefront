@@ -3,6 +3,7 @@
     "description": "Custom storefront for Magento2 application",
     "license": "proprietary",
     "require": {
+        "php": ">=7.1",
         "predis/predis": "^1.1",
         "elasticsearch/elasticsearch": "^7.6",
         "twig/twig": "^3.0",
