@@ -8,6 +8,6 @@ class Router
 {
     public function dispatch(Request $request)
     {
-        die("ROUTER MATCHES NOTHING");
+        //die("ROUTER MATCHES NOTHING");
     }
 }
