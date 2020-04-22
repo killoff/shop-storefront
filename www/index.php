@@ -2,8 +2,10 @@
 
 require '../vendor/autoload.php';
 
-use Drinks\Storefront\Router;
+use Drinks\Storefront\App;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-(new Router())->dispatch(Request::createFromGlobals());
+define('STOREFRONT_DIR', dirname(__DIR__));
+(new App())->run(Request::createFromGlobals(), new Response());
 
