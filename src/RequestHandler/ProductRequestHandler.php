@@ -11,19 +11,19 @@ class ProductRequestHandler implements RequestHandlerInterface
     /**
      * @var ServiceContainer
      */
-    private $serviceLocator;
+    private $serviceContainer;
 
-    public function __construct(ServiceContainer $serviceLocator)
+    public function __construct(ServiceContainer $serviceContainer)
     {
-        $this->serviceLocator = $serviceLocator;
+        $this->serviceContainer = $serviceContainer;
     }
 
-    public function canHandle(Request $request)
+    public function canHandle(Request $request): bool
     {
         return $request->query->get('entity') === 'product';
     }
 
-    public function handle(Request $request, Response $response)
+    public function handle(Request $request, Response $response): void
     {
         $params = [
             'index' => 'products_drink_ch_de_ch',
@@ -31,7 +31,7 @@ class ProductRequestHandler implements RequestHandlerInterface
         ];
 
         /** @var \Twig\Environment $twig */
-        $twig = $this->serviceLocator->get('twig');
+        $twig = $this->serviceContainer->get('twig');
         $content = $twig->render(
             'product/view.twig',
             [

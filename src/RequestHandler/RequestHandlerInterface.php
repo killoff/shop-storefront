@@ -7,6 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface RequestHandlerInterface
 {
-    public function canHandle(Request $request);
-    public function handle(Request $request, Response $response);
+    public function canHandle(Request $request): bool;
+    public function handle(Request $request, Response $response): void;
 }

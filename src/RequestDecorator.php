@@ -10,23 +10,23 @@ class RequestDecorator
     /**
      * @var ServiceContainer
      */
-    private $serviceLocator;
+    private $serviceContainer;
 
     /**
      * @var \Drinks\Storefront\Config
      */
     private $config;
 
-    public function __construct(ServiceContainer $serviceLocator, Config $config)
+    public function __construct(ServiceContainer $serviceContainer, Config $config)
     {
-        $this->serviceLocator = $serviceLocator;
+        $this->serviceContainer = $serviceContainer;
         $this->config = $config;
     }
 
-    public function decorate(Request $request)
+    public function decorate(Request $request): void
     {
-        $redis = $this->serviceLocator->get('redis/0');
-//        $redis = $this->serviceLocator->get('redis');
+        $redis = $this->serviceContainer->get('redis/0');
+//        $redis = $this->serviceContainer->get('redis');
 //        $value = $redis->get($request->getRequestUri());
 //        $value = json_decode($value, true);
 //        $request->query->set('entity', $value['entity']);

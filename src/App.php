@@ -17,8 +17,8 @@ class App
             throw new \RuntimeException('STOREFRONT_DIR not defined');
         }
         $config = new Config();
-        $serviceLocator = new ServiceContainer($config);
-        (new RequestDecorator($serviceLocator, $config))->decorate($request);
+        $serviceContainer = new ServiceContainer($config);
+        (new RequestDecorator($serviceContainer, $config))->decorate($request);
         $handlers = [
             ProductRequestHandler::class,
             CategoryRequestHandler::class,
@@ -26,7 +26,7 @@ class App
         ];
         foreach ($handlers as $handlerClass) {
             /** @var RequestHandlerInterface $handler */
-            $handler = new $handlerClass($serviceLocator, $config);
+            $handler = new $handlerClass($serviceContainer, $config);
             if ($handler->canHandle($request)) {
                 $handler->handle($request, $response);
                 break;

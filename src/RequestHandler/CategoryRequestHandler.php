@@ -6,12 +6,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CategoryRequestHandler implements RequestHandlerInterface
 {
-    public function canHandle(Request $request)
+    public function canHandle(Request $request): bool
     {
         return $request->query->get('entity') === 'category';
     }
 
-    public function handle(Request $request)
+    public function handle(Request $request): void
     {
     }
 }
