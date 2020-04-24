@@ -1,96 +1,50 @@
 <?php
 return [
-    'drinks_ch_de' => [
-        'host' => 'www.drinks.ch',
-        'locale' => 'de_CH',
-        'required_customer_groups' => [
-            'handel',
-            'gastro',
-        ]
-
-    ],
-
-    'store' => [
-
-        // Switzerland
-        'www.drinks.ch' => [
-            'de' => [
-                'code' => 'drinks_ch_de',
-            ],
-
-            'fr' => [
-                'code' => 'drinks_ch_fr',
+    'stores' => [
+        'drinks_ch' => [
+            'description' => 'Drinks Switzerland',
+            'server_name' => [
+                'drinks.ch',
+                'www.drinks.ch',
+                'staging.drinks.ch',
+                'drink.loc',
+                'www.drink.loc',
+                '127.0.0.1',
             ],
         ],
-        'business.drinks.ch' => [
-            'de' => [
-                'code' => 'b2b_drinks_ch_de',
-                'required_customer_groups' => [
-                    'handel',
-                    'gastro',
-                ]
+        'b2b_drinks_ch' => [
+            'description' => 'Drinks Switzerland B2B',
+            'server_name' => [
+                'business.drinks.ch',
+                'business.staging.drinks.ch',
+                'business.drink.loc',
             ],
-            'fr' => [
-                'code' => 'b2b_drinks_ch_fr',
-                'required_customer_groups' => [
-                    'handel',
-                    'gastro',
-                ]
-            ],
-            'en' => '@de'
+            'required_customer_groups' => [
+                'handel',
+                'gastro',
+            ]
         ],
-
-        // Germany
-        'www.drinks.de' => [
-            'de' => [
-                'code' => 'drinks_de_de',
+        'drinks_de' => [
+            'description' => 'Drinks Germany',
+            'server_name' => [
+                'drinks.de',
+                'www.drinks.de',
+                'staging.drinks.de',
+                'drink.deloc',
+                'www.drink.deloc',
             ],
         ],
-        'business.drinks.de' => [
-            'de' => [
-                'code' => 'b2b_drinks_de_de',
-                'required_customer_groups' => [
-                    'handel',
-                    'gastro',
-                ]
+        'b2b_drinks_de' => [
+            'description' => 'Drinks Germany B2B',
+            'server_name' => [
+                'business.drinks.de',
+                'business.staging.drinks.de',
+                'business.drink.deloc',
             ],
+            'required_customer_groups' => [
+                'handel',
+                'gastro',
+            ]
         ],
-
-        // Staging
-        'www.drink.loc' => [
-            'de' => [
-                'code' => 'drinks_ch_de',
-            ],
-            'fr' => [
-                'code' => 'drinks_ch_fr',
-            ],
-        ],
-        'business.drink.loc' => [
-            'de' => [
-                'code' => 'drinks_ch_de',
-                'required_customer_groups' => [
-                    'handel',
-                    'gastro',
-                ]
-            ],
-            'fr' => [
-                'code' => 'drinks_ch_fr',
-                'required_customer_groups' => [
-                    'handel',
-                    'gastro',
-                ]
-            ],
-        ],
-//        'www.drinks.deloc' => $de_b2c,
-//        'business.drinks.deloc' => $de_b2b,
-//
-//        'staging.drinks.ch' => $ch_b2c,
-//        'business.staging.drinks.ch' => $ch_b2b,
-//        'staging.drinks.de' => $de_b2c,
-//        'business.staging.drinks.de' => $de_b2b,
-//
-//        'germany.drinks.de' => $de_b2c,
-//        'business.germany.drinks.de' => $de_b2b,
     ]
-
 ];
