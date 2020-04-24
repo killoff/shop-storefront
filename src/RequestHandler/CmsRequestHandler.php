@@ -3,6 +3,7 @@
 namespace Drinks\Storefront\RequestHandler;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CmsRequestHandler implements RequestHandlerInterface
 {
@@ -11,7 +12,7 @@ class CmsRequestHandler implements RequestHandlerInterface
         return $request->query->get('entity') === 'page';
     }
 
-    public function handle(Request $request): void
+    public function handle(Request $request, Response $response): void
     {
     }
 }

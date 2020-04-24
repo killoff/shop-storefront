@@ -3,7 +3,7 @@ return [
     'stores' => [
         'drinks_ch' => [
             'description' => 'Drinks Switzerland',
-            'server_name' => [
+            'hosts' => [
                 'drinks.ch',
                 'www.drinks.ch',
                 'staging.drinks.ch',
@@ -14,7 +14,7 @@ return [
         ],
         'b2b_drinks_ch' => [
             'description' => 'Drinks Switzerland B2B',
-            'server_name' => [
+            'hosts' => [
                 'business.drinks.ch',
                 'business.staging.drinks.ch',
                 'business.drink.loc',
@@ -26,7 +26,7 @@ return [
         ],
         'drinks_de' => [
             'description' => 'Drinks Germany',
-            'server_name' => [
+            'hosts' => [
                 'drinks.de',
                 'www.drinks.de',
                 'staging.drinks.de',
@@ -36,7 +36,7 @@ return [
         ],
         'b2b_drinks_de' => [
             'description' => 'Drinks Germany B2B',
-            'server_name' => [
+            'hosts' => [
                 'business.drinks.de',
                 'business.staging.drinks.de',
                 'business.drink.deloc',
