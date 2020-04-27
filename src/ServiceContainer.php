@@ -2,25 +2,45 @@
 
 namespace Drinks\Storefront;
 
+use Drinks\Storefront\App\Config;
+use Drinks\Storefront\App\Customer;
 use Drinks\Storefront\Factory\ElasticsearchFactory;
 use Drinks\Storefront\Factory\RedisFactory;
 use Drinks\Storefront\Factory\TwigFactory;
+use Predis\Client as RedisClient;
+use Elasticsearch\Client as ElasticsearchClient;
+use Twig\Environment as TwigEnvironment;
 
 class ServiceContainer
 {
     private $services = [];
 
-    /**
-     * @var Config
-     */
-    private $config;
-
-    public function __construct(Config $config)
+    public function getConfig(): Config
     {
-        $this->config = $config;
+        return $this->get('config');
     }
 
-    public function get($serviceName)
+    public function getCustomer(): Customer
+    {
+        return $this->get('customer');
+    }
+
+    public function getRedis(): RedisClient
+    {
+        return $this->get('redis');
+    }
+
+    public function getElasticsearch(): ElasticsearchClient
+    {
+        return $this->get('elasticsearch');
+    }
+
+    public function getTwig(): TwigEnvironment
+    {
+        return $this->get('twig');
+    }
+
+    private function get($serviceName)
     {
         if (!$this->isUp($serviceName)) {
             $this->up($serviceName);
@@ -41,6 +61,12 @@ class ServiceContainer
     private function up($serviceName)
     {
         switch ($serviceName) {
+            case 'config':
+                $this->upConfig($serviceName);
+                break;
+            case 'customer':
+                $this->upCustomer($serviceName);
+                break;
             case 'redis':
             case 'redis/0':
                 $this->upRedis('redis', 0);
@@ -60,21 +86,31 @@ class ServiceContainer
 
     }
 
+    private function upConfig($serviceName)
+    {
+        $this->services[$serviceName] = new Config();
+    }
+
+    private function upCustomer($serviceName)
+    {
+        $this->services[$serviceName] = new Customer($this);
+    }
+
     private function upTwig($serviceName)
     {
-        $factory = new TwigFactory($this->config);
+        $factory = new TwigFactory($this->get('config'));
         $this->services[$serviceName] = $factory->create();
     }
 
     private function upRedis($serviceName, $database)
     {
-        $factory = new RedisFactory($this->config);
+        $factory = new RedisFactory($this->get('config'));
         $this->services[$serviceName] = $factory->create($database);
     }
 
     private function upElasticsearch($serviceName)
     {
-        $factory = new ElasticsearchFactory($this->config);
+        $factory = new ElasticsearchFactory($this->get('config'));
         $this->services[$serviceName] = $factory->create();
     }
 }

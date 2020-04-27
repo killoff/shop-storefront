@@ -25,15 +25,12 @@ class ProductRequestHandler implements RequestHandlerInterface
 
     public function handle(Request $request, Response $response): void
     {
-        $esIndex = $this->lookupEsIndex('products', 'store_code', 'locale', 'customer_group');
-
         $params = [
             'index' => 'products_drink_ch_de_ch',
             'id' => $request->query->get('entity_id'),
         ];
 
-        /** @var \Twig\Environment $twig */
-        $twig = $this->serviceContainer->get('twig');
+        $twig = $this->serviceContainer->getTwig();
         $content = $twig->render(
             'product/view.twig',
             [
@@ -45,4 +42,9 @@ class ProductRequestHandler implements RequestHandlerInterface
         $response->send();
     }
 
+    private function lookupEsIndex($entity, $store, $customerGroup, $locale)
+    {
+        $indexes = $this->serviceContainer->getConfig()->get('elasticsearch/indexes');
+        return $indexes[$store]['product'][$customerGroup][$locale];
+    }
 }

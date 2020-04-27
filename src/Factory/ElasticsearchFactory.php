@@ -2,7 +2,7 @@
 
 namespace Drinks\Storefront\Factory;
 
-use Drinks\Storefront\Config;
+use Drinks\Storefront\App\Config;
 use Elasticsearch\ClientBuilder;
 
 class ElasticsearchFactory

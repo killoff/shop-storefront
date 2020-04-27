@@ -2,8 +2,7 @@
 
 namespace Drinks\Storefront\Factory;
 
-use Drinks\Storefront\Config;
-use \Twig;
+use Drinks\Storefront\App\Config;
 
 class TwigFactory
 {

@@ -1,6 +1,7 @@
 <?php
 
-namespace Drinks\Storefront;
+namespace Drinks\Storefront\App;
+
 
 class Config
 {

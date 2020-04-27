@@ -3,7 +3,6 @@
 namespace Drinks\Storefront;
 
 use Symfony\Component\HttpFoundation\Request;
-use Drinks\Storefront\Config;
 
 class RequestDecorator
 {
@@ -12,36 +11,33 @@ class RequestDecorator
      */
     private $serviceContainer;
 
-    /**
-     * @var Config
-     */
-    private $config;
-
-    public function __construct(ServiceContainer $serviceContainer, Config $config)
+    public function __construct(ServiceContainer $serviceContainer)
     {
         $this->serviceContainer = $serviceContainer;
-        $this->config = $config;
     }
 
     public function decorate(Request $request): void
     {
         $storeCode = $this->getStoreCodeByHost($request->getHost());
-        $requestUri = '/' . trim($request->getRequestUri(), '/');
-        $requestPath = parse_url($requestUri, PHP_URL_PATH);
+        $requestPath = $request->getPathInfo();
         $redisKey = "url:{$storeCode}:{$requestPath}";
-        $redis = $this->serviceContainer->get('redis');
+        $redis = $this->serviceContainer->getRedis();
         $value = $redis->get($redisKey);
         if ($value !== null) {
             $value = json_decode($value, true);
+            $request->query->set('store', $storeCode);
             $request->query->set('entity', $value['entity']);
             $request->query->set('entity_id', $value['entity_id']);
             $request->query->set('entity_locale', $value['locale']);
         }
+        //to trigger ProductRequestHandler $request->query->set('entity', 'product');
+        $request->query->set('customer_sid', $request->cookies->get('PHPSESSID'));
     }
 
     private function getStoreCodeByHost($host)
     {
-        foreach ($this->config->get('stores') as $code => $store) {
+        $config = $this->serviceContainer->getConfig();
+        foreach ($config->get('stores') as $code => $store) {
             if (in_array($host, $store['hosts'])) {
                 return $code;
             }
