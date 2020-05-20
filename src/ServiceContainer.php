@@ -15,6 +15,11 @@ class ServiceContainer
 {
     private $services = [];
 
+    public function __construct()
+    {
+        AppDir::init();
+    }
+
     public function getConfig(): Config
     {
         return $this->get('config');

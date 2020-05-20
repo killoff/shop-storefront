@@ -13,9 +13,7 @@ class App
 {
     public function run(Request $request, Response $response)
     {
-        if (!defined('STOREFRONT_DIR')) {
-            throw new \RuntimeException('STOREFRONT_DIR not defined');
-        }
+        AppDir::init();
         $serviceContainer = new ServiceContainer();
         (new RequestDecorator($serviceContainer))->decorate($request);
         $handlers = [
