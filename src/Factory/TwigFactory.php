@@ -19,8 +19,8 @@ class TwigFactory
     public function create()
     {
         $fallbackLoader = new \Twig\Loader\FilesystemLoader(STOREFRONT_DIR . '/templates/default');
-        $storeLoader = new \Twig\Loader\FilesystemLoader(STOREFRONT_DIR . '/templates/b2b_drinks_ch');
-        $loader = new \Twig\Loader\ChainLoader([$storeLoader, $fallbackLoader]);
+        $websiteLoader = new \Twig\Loader\FilesystemLoader(STOREFRONT_DIR . '/templates/b2b_drinks_ch');
+        $loader = new \Twig\Loader\ChainLoader([$websiteLoader, $fallbackLoader]);
         $twig = new \Twig\Environment($loader, [
 //            'cache' => '/path/to/compilation_cache',
         ]);

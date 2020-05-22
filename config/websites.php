@@ -1,7 +1,7 @@
 <?php
 return [
-    'stores' => [
-        'drinks_ch' => [
+    'websites' => [
+        'drink_ch' => [
             'description' => 'Drinks Switzerland',
             'hosts' => [
                 'drinks.ch',
@@ -14,7 +14,7 @@ return [
                 '127.0.0.1',
             ],
         ],
-        'b2b_drinks_ch' => [
+        'b2b_drink_ch' => [
             'description' => 'Drinks Switzerland B2B',
             'hosts' => [
                 'business.drinks.ch',
@@ -27,7 +27,7 @@ return [
                 'gastro',
             ]
         ],
-        'drinks_de' => [
+        'b2c_drinks_de' => [
             'description' => 'Drinks Germany',
             'hosts' => [
                 'drinks.de',

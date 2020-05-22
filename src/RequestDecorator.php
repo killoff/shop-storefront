@@ -18,30 +18,32 @@ class RequestDecorator
 
     public function decorate(Request $request): void
     {
-        $storeCode = $this->getStoreCodeByHost($request->getHost());
+        $websiteCode = $this->getWebsiteCodeByHost($request->getHost());
         $requestPath = $request->getPathInfo();
-        $redisKey = "url:{$storeCode}:{$requestPath}";
+        $redisKey = "url:{$websiteCode}:{$requestPath}";
         $redis = $this->serviceContainer->getRedis();
         $value = $redis->get($redisKey);
         if ($value !== null) {
             $value = json_decode($value, true);
-            $request->query->set('store', $storeCode);
+            $request->query->set('website_code', $websiteCode);
             $request->query->set('entity', $value['entity']);
             $request->query->set('entity_id', $value['entity_id']);
             $request->query->set('entity_locale', $value['locale']);
         }
-        //to trigger ProductRequestHandler $request->query->set('entity', 'product');
+        //to trigger ProductRequestHandler
+         $request->query->set('entity', 'product');
+         $request->query->set('entity_id', 20);
         $request->query->set('customer_sid', $request->cookies->get('PHPSESSID'));
     }
 
-    private function getStoreCodeByHost($host)
+    private function getWebsiteCodeByHost($host)
     {
         $config = $this->serviceContainer->getConfig();
-        foreach ($config->get('stores') as $code => $store) {
-            if (in_array($host, $store['hosts'])) {
+        foreach ($config->get('websites') as $code => $website) {
+            if (in_array($host, $website['hosts'])) {
                 return $code;
             }
         }
-        throw new \Exception("Store not found by host '{$host}'");
+        throw new \Exception("Website not found by host '{$host}'");
     }
 }
