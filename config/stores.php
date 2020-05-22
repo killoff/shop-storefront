@@ -9,6 +9,8 @@ return [
                 'staging.drinks.ch',
                 'drink.loc',
                 'www.drink.loc',
+                'magento2.loc',
+                'www.magento2.loc',
                 '127.0.0.1',
             ],
         ],
@@ -18,6 +20,7 @@ return [
                 'business.drinks.ch',
                 'business.staging.drinks.ch',
                 'business.drink.loc',
+                'business.magento2.loc',
             ],
             'required_customer_groups' => [
                 'handel',
