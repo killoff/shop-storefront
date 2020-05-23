@@ -25,10 +25,15 @@ class ProductRequestHandler implements RequestHandlerInterface
 
     public function handle(Request $request, Response $response): void
     {
-        $params = [
-            'index' => 'products_drink_ch_de_ch',
-            'id' => $request->query->get('entity_id'),
-        ];
+//        $params = [
+//            'index' => 'magento2_ch_de_catalog_product',
+//            'id' => $request->query->get('entity_id'),
+//            'type' => 'product',
+//        ];
+//
+//        $product = $this->serviceContainer->getElasticsearch()->get($params);
+//        print_r($product);
+//        exit;
 
         $twig = $this->serviceContainer->getTwig();
         $content = $twig->render(

@@ -30,10 +30,6 @@ class RequestDecorator
             $request->query->set('entity_id', $value['entity_id']);
             $request->query->set('entity_locale', $value['locale']);
         }
-        //to trigger ProductRequestHandler
-         $request->query->set('entity', 'product');
-         $request->query->set('entity_id', 20);
-        $request->query->set('customer_sid', $request->cookies->get('PHPSESSID'));
     }
 
     private function getWebsiteCodeByHost($host)
