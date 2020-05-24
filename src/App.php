@@ -17,8 +17,10 @@ class App
      */
     private $wasRequestHandled = false;
 
-    public function run(Request $request, Response $response)
+    public function run()
     {
+        $request = Request::createFromGlobals();
+        $response = new Response();
         AppDir::init();
         $serviceContainer = new ServiceContainer();
         (new RequestDecorator($serviceContainer))->decorate($request);
