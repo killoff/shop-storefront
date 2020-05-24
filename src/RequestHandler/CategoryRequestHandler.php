@@ -26,15 +26,15 @@ class CategoryRequestHandler implements RequestHandlerInterface
     public function handle(Request $request, Response $response): void
     {
         $params = [
-            'index' => 'magento2_ch_de_catalog_product',
-//            'type' => 'producdt',
+            'index' => 'magento2_de_catalog_product',
+            'type' => 'product',
             'body'  => [
                 'from' => 0, 'size' => 50,
-//                'query' => [
-//                    'terms' => [
-//                        'category_codes' => [(int)$request->query->get('entity_id')]
-//                    ]
-//                ]
+                'query' => [
+                    'terms' => [
+                        'category_codes' => [(int)$request->query->get('entity_id')]
+                    ]
+                ]
             ]
         ];
 //        echo json_encode($params);
