@@ -11,6 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class App
 {
+    /**
+     * Flag that indicates whether request was handled by one of request handlers
+     * @var bool
+     */
+    private $wasRequestHandled = false;
+
     public function run(Request $request, Response $response)
     {
         AppDir::init();
@@ -26,8 +32,14 @@ class App
             $handler = new $handlerClass($serviceContainer);
             if ($handler->canHandle($request)) {
                 $handler->handle($request, $response);
+                $this->wasRequestHandled = true;
                 break;
             }
         }
+    }
+
+    public function wasRequestHandled()
+    {
+        return $this->wasRequestHandled;
     }
 }
