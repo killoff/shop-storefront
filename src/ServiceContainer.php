@@ -4,6 +4,7 @@ namespace Drinks\Storefront;
 
 use Drinks\Storefront\App\Config;
 use Drinks\Storefront\App\Customer;
+use Drinks\Storefront\App\IndexRepository;
 use Drinks\Storefront\Factory\ElasticsearchFactory;
 use Drinks\Storefront\Factory\RedisFactory;
 use Drinks\Storefront\Factory\TwigFactory;
@@ -28,6 +29,11 @@ class ServiceContainer
     public function getCustomer(): Customer
     {
         return $this->get('customer');
+    }
+
+    public function getIndexRepository(): IndexRepository
+    {
+        return $this->get('index_repository');
     }
 
     public function getRedis(): RedisClient
@@ -72,6 +78,9 @@ class ServiceContainer
             case 'customer':
                 $this->upCustomer($serviceName);
                 break;
+            case 'index_repository':
+                $this->upIndexRepository($serviceName);
+                break;
             case 'redis':
             case 'redis/0':
                 $this->upRedis('redis', 0);
@@ -99,6 +108,11 @@ class ServiceContainer
     private function upCustomer($serviceName)
     {
         $this->services[$serviceName] = new Customer($this);
+    }
+
+    private function upIndexRepository($serviceName)
+    {
+        $this->services[$serviceName] = new IndexRepository($this->getConfig());
     }
 
     private function upTwig($serviceName)

@@ -25,8 +25,13 @@ class CategoryRequestHandler implements RequestHandlerInterface
 
     public function handle(Request $request, Response $response): void
     {
+        $indexRepository = $this->serviceContainer->getIndexRepository();
+        $website = $request->query->get('website');
+        $locale = $request->query->get('locale');
+        $productIndex = $indexRepository->lookupProductIndex($website, $locale);
+        $categoryIndex = $indexRepository->lookupCategoryIndex($website, $locale);
         $params = [
-            'index' => 'magento2_de_catalog_product',
+            'index' => $productIndex,
             'type' => 'product',
             'body'  => [
                 'from' => 0, 'size' => 50,

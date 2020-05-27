@@ -28,7 +28,7 @@ class RequestDecorator
             $request->query->set('website', $website);
             $request->query->set('entity', $value['entity']);
             $request->query->set('entity_id', $value['entity_id']);
-            $request->query->set('entity_locale', $value['locale']);
+            $request->query->set('locale', $value['locale']);
         }
     }
 
