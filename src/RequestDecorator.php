@@ -18,21 +18,21 @@ class RequestDecorator
 
     public function decorate(Request $request): void
     {
-        $websiteCode = $this->getWebsiteCodeByHost($request->getHost());
+        $website = $this->getWebsiteByHost($request->getHost());
         $requestPath = $request->getPathInfo();
-        $redisKey = "url:{$websiteCode}:{$requestPath}";
+        $redisKey = "url:{$website}:{$requestPath}";
         $redis = $this->serviceContainer->getRedis();
         $value = $redis->get($redisKey);
         if ($value !== null) {
             $value = json_decode($value, true);
-            $request->query->set('website_code', $websiteCode);
+            $request->query->set('website', $website);
             $request->query->set('entity', $value['entity']);
             $request->query->set('entity_id', $value['entity_id']);
             $request->query->set('entity_locale', $value['locale']);
         }
     }
 
-    private function getWebsiteCodeByHost($host)
+    private function getWebsiteByHost($host)
     {
         $config = $this->serviceContainer->getConfig();
         foreach ($config->get('websites') as $code => $website) {
