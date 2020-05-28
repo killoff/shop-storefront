@@ -25,11 +25,16 @@ class RequestDecorator
         $value = $redis->get($redisKey);
         if ($value !== null) {
             $value = json_decode($value, true);
+//            var_dump($value);
             $request->query->set('website', $website);
             $request->query->set('entity', $value['entity']);
             $request->query->set('entity_id', $value['entity_id']);
             $request->query->set('locale', $value['locale']);
         }
+//        $request->query->set('website', 'drink_ch');
+//        $request->query->set('entity', 'category');
+//        $request->query->set('entity_id', '892');
+//        $request->query->set('locale', 'de_CH');
     }
 
     private function getWebsiteByHost($host)

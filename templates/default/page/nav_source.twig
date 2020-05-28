@@ -1,0 +1,68 @@
+<ul class="nav overflow-y-auto">
+    <li class="md:hidden py-2 px-6">
+        <span class="block uppercase tracking-wide text-gray-100 font-medium">Sortiment</span>
+    </li>
+    {% for firstLevelItem in tree %}
+        <li>
+        {% if not firstLevelItem.children %}
+            <a href="/{{ firstLevelItem.url_path.0 }}.html">
+                {{ firstLevelItem.name.0 }}
+            </a>
+        {% else %}
+            <a class="nav__toggle" href="/{{ firstLevelItem.url_path.0 }}.html">
+                <span>{{ firstLevelItem.name.0 }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-auto md:hidden" viewBox="0 0 5 9">
+                    <path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path>
+                </svg>
+            </a>
+            <div class="nav__dropdown">
+                <dl class="nav__sections">
+                    <dt class="md:hidden">
+                        <a class="nav__back" href="/{{ firstLevelItem.url_path.0 }}.html">
+                            <span>{{ firstLevelItem.name.0 }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-auto md:hidden" viewBox="0 0 5 9">
+                                <path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </dt>
+                    {% for secondLevelItem in firstLevelItem.children %}
+                    <dd class="nav__section lg:flex-auto lg:col-2">
+                        <a class="nav__heading nav__toggle" href="/{{ secondLevelItem.url_path.0 }}.html">
+                            <span>{{ secondLevelItem.name.0 }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-auto md:hidden" viewBox="0 0 5 9">
+                                <path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <dl class="nav__columns">
+                            <dt class="md:hidden">
+                                <a href="/{{ secondLevelItem.url_path.0 }}.html" class="nav__back">
+                                    <span>{{ secondLevelItem.name.0 }}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-auto md:hidden" viewBox="0 0 5 9">
+                                        <path stroke="currentColor" d="M1 1l3 3.5L1 8" fill="none" fill-rule="evenodd"></path>
+                                    </svg>
+                                </a>
+                            </dt>
+                            {% for thirdLevelItem in secondLevelItem.children %}
+                            <dd>
+                                <a href="/{{ thirdLevelItem.url_path.0 }}.html">{{ thirdLevelItem.name.0 }}</a>
+                            </dd>
+                            {% endfor %}
+                            <dd>
+                                <a href="https://www.drink.ch/de/whisky-whiskey/marken.html">
+                                    <strong class="font-medium">Alle ansehen</strong>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
+                                        <polyline fill="none" stroke="currentColor" points="10 5 15 9.5 10 14"></polyline>
+                                        <line fill="none" stroke="currentColor" x1="4" y1="9.5" x2="15" y2="9.5"></line>
+                                    </svg>
+                                </a>
+                            </dd>
+                        </dl>
+                    </dd>
+                    {% endfor %}
+                </dl>
+            </div>
+        {% endif %}
+        </li>
+    {% endfor %}
+
+</ul>

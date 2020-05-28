@@ -3,7 +3,7 @@
 namespace Drinks\Storefront;
 
 use Drinks\Storefront\RequestHandler\CategoryRequestHandler;
-use Drinks\Storefront\RequestHandler\CmsRequestHandler;
+use Drinks\Storefront\RequestHandler\CmsPageRequestHandler;
 use Drinks\Storefront\RequestHandler\ProductRequestHandler;
 use Drinks\Storefront\RequestHandler\RequestHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class App
         $handlers = [
             ProductRequestHandler::class,
             CategoryRequestHandler::class,
-            CmsRequestHandler::class,
+            CmsPageRequestHandler::class,
         ];
         foreach ($handlers as $handlerClass) {
             /** @var RequestHandlerInterface $handler */
