@@ -12,6 +12,7 @@ return [
                 'magento2.loc',
                 'www.magento2.loc',
                 '127.0.0.1',
+                'dev.drinks.ch',
             ],
         ],
         'b2b_drink_ch' => [
