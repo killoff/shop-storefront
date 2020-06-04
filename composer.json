@@ -4,14 +4,22 @@
     "license": "proprietary",
     "require": {
         "php": ">=7.1",
+        "ext-json": "*",
         "predis/predis": "^1.1",
         "elasticsearch/elasticsearch": "^6.0",
         "twig/twig": "^3.0",
-        "symfony/http-foundation": "^5.0"
+        "symfony/http-foundation": "^5.0",
+        "symfony/dependency-injection": "^4.0",
+        "symfony/yaml": "^4.0",
+        "symfony/config": "^4.0",
+        "symfony/finder": "^4.0"
     },
     "autoload": {
         "psr-4" : {
             "Drinks\\Storefront\\" : "src/"
         }
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
     }
 }

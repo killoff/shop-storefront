@@ -2,46 +2,49 @@
 
 namespace Drinks\Storefront;
 
-use Drinks\Storefront\RequestHandler\CategoryRequestHandler;
-use Drinks\Storefront\RequestHandler\CmsPageRequestHandler;
-use Drinks\Storefront\RequestHandler\ProductRequestHandler;
-use Drinks\Storefront\RequestHandler\RequestHandlerInterface;
+use Drinks\Storefront\Exception\NoHandleFoundException;
+use Drinks\Storefront\Exception\NoMatchFoundException;
+use Drinks\Storefront\Routing\RequestDecorator;
+use Drinks\Storefront\Routing\RequestMatcher;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class App
 {
-    /**
-     * Flag that indicates whether request was handled by one of request handlers
-     * @var bool
-     */
-    private $wasRequestHandled = false;
-
-    public function run()
+    public function run(): void
     {
-        $request = Request::createFromGlobals();
-        $response = new Response();
         AppDir::init();
-        $serviceContainer = new ServiceContainer();
-        (new RequestDecorator($serviceContainer))->decorate($request);
-        $handlers = [
-            ProductRequestHandler::class,
-            CategoryRequestHandler::class,
-            CmsPageRequestHandler::class,
-        ];
-        foreach ($handlers as $handlerClass) {
-            /** @var RequestHandlerInterface $handler */
-            $handler = new $handlerClass($serviceContainer);
+
+        $request = Request::createFromGlobals();
+        /** @var RequestMatcher $matcher */
+        $matcher = $this->getContainer()->get(RequestMatcher::class);
+        $matchResult = $matcher->match($request);
+        if ($matchResult === null) {
+            throw new NoMatchFoundException('Request could not be matched.');
+        }
+        /** @var RequestDecorator $requestDecorator */
+        $requestDecorator = $this->getContainer()->get(RequestDecorator::class);
+        $requestDecorator->decorate($request, $matchResult);
+
+        /** @var RequestHandlersPool $handlersPool */
+        $handlersPool = $this->getContainer()->get(RequestHandlersPool::class);
+        foreach ($handlersPool->getAll() as $handler) {
             if ($handler->canHandle($request)) {
-                $handler->handle($request, $response);
-                $this->wasRequestHandled = true;
+                $handler->handle($request);
                 break;
             }
         }
+        throw new NoHandleFoundException('Request could not be handled.');
     }
 
-    public function wasRequestHandled()
+    private function getContainer(): ContainerBuilder
     {
-        return $this->wasRequestHandled;
+        $containerBuilder = new ContainerBuilder();
+        $loader = new YamlFileLoader($containerBuilder, new FileLocator(dirname(__DIR__) . '/config'));
+        $loader->load('services.yaml');
+        $containerBuilder->compile();
+        return $containerBuilder;
     }
 }

@@ -1,0 +1,17 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Drinks\Storefront\:
+        resource: '../src/*'
+        exclude: '../src/{App.php}'
+
+    Drinks\Storefront\RequestHandlersPool:
+        arguments:
+            - '@Drinks\Storefront\RequestHandler\Category'
+            - '@Drinks\Storefront\RequestHandler\Cms'
+            - '@Drinks\Storefront\RequestHandler\Product'

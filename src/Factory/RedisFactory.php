@@ -2,27 +2,12 @@
 
 namespace Drinks\Storefront\Factory;
 
-use Drinks\Storefront\App\Config;
+use Predis\Client;
 
 class RedisFactory
 {
-    /**
-     * @var Config
-     */
-    private $config;
-
-    public function __construct(Config $config)
+    public function create(): Client
     {
-        $this->config = $config;
-    }
-
-    public function create($database)
-    {
-        $options = [
-            'parameters' => [
-                'database' => $database
-            ]
-        ];
-        return new \Predis\Client($this->config->get('redis/uri'), $options);
+        return new Client('redis');
     }
 }
