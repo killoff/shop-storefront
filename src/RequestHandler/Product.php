@@ -2,7 +2,6 @@
 
 namespace Drinks\Storefront\RequestHandler;
 
-use Drinks\Storefront\App\Config;
 use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
 use Drinks\Storefront\RequestHandlerInterface;
@@ -11,11 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 class Product implements RequestHandlerInterface
 {
     private const HANDLER_TYPE = 'product';
-
-    /**
-     * @var Config
-     */
-    private $config;
 
     /**
      * @var TwigFactory
@@ -27,9 +21,8 @@ class Product implements RequestHandlerInterface
      */
     private $responseFactory;
 
-    public function __construct(Config $config, TwigFactory $twigFactory, ResponseFactory $responseFactory)
+    public function __construct(TwigFactory $twigFactory, ResponseFactory $responseFactory)
     {
-        $this->config = $config;
         $this->twigFactory = $twigFactory;
         $this->responseFactory = $responseFactory;
     }
@@ -62,11 +55,5 @@ class Product implements RequestHandlerInterface
         $response = $this->responseFactory->create();
         $response->setContent($content);
         $response->send();
-    }
-
-    private function lookupEsIndex($entity, $store, $customerGroup, $locale)
-    {
-        $indexes = $this->config->get('elasticsearch/indexes');
-        return $indexes[$store]['product'][$customerGroup][$locale];
     }
 }

@@ -5,6 +5,7 @@ namespace Drinks\Storefront\Routing;
 use Drinks\Storefront\Factory\RedisFactory;
 use Drinks\Storefront\Repository\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class RequestMatcher
 {

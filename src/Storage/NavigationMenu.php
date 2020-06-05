@@ -2,26 +2,36 @@
 
 namespace Drinks\Storefront\Storage;
 
-use Drinks\Storefront\ServiceContainer;
+use Drinks\Storefront\App\IndexRepository;
+use Drinks\Storefront\Factory\ElasticsearchFactory;
+use Drinks\Storefront\Factory\TwigFactory;
 
 class NavigationMenu
 {
     const STARTING_LEVEL = 2;
-
     /**
-     * @var ServiceContainer
+     * @var IndexRepository
      */
-    private $serviceContainer;
+    private $indexRepository;
+    /**
+     * @var TwigFactory
+     */
+    private $twigFactory;
+    /**
+     * @var ElasticsearchFactory
+     */
+    private $elasticsearchFactory;
 
-    public function __construct(ServiceContainer $serviceContainer)
+    public function __construct(IndexRepository $indexRepository, TwigFactory $twigFactory, ElasticsearchFactory $elasticsearchFactory)
     {
-        $this->serviceContainer = $serviceContainer;
+        $this->indexRepository = $indexRepository;
+        $this->twigFactory = $twigFactory;
+        $this->elasticsearchFactory = $elasticsearchFactory;
     }
 
     public function regenerateForWebsite($website, $locale)
     {
-        $indexRepository = $this->serviceContainer->getIndexRepository();
-        $categoriesIndex = $indexRepository->lookupCategoryIndex($website, $locale);
+        $categoriesIndex = $this->indexRepository->lookupCategoryIndex($website, $locale);
         $firstLevel = $this->getCategories(
             $categoriesIndex,
             [
@@ -62,7 +72,7 @@ class NavigationMenu
         }
 //        print_r($tree);exit;
 
-        $twig = $this->serviceContainer->getTwig();
+        $twig = $this->twigFactory->create();
         $content = $twig->render(
             'page/nav_source.twig',
             [
@@ -90,7 +100,7 @@ class NavigationMenu
         if (!empty($query)) {
             $params['body']['query'] = $query;
         }
-        $hits = $this->serviceContainer->getElasticsearch()->search($params)['hits']['hits'];
+        $hits = $this->elasticsearchFactory->create()->search($params)['hits']['hits'];
         return array_column($hits, '_source');
     }
 

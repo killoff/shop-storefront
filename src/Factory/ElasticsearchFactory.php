@@ -2,24 +2,23 @@
 
 namespace Drinks\Storefront\Factory;
 
-use Drinks\Storefront\App\Config;
+use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 
 class ElasticsearchFactory
 {
     /**
-     * @var Config
+     * @var string
      */
-    private $config;
+    private $url;
 
-    public function __construct(Config $config)
+    public function __construct(string $url)
     {
-        $this->config = $config;
+        $this->url = $url;
     }
 
-    public function create()
+    public function create(): Client
     {
-        $hosts = $this->config->get('elasticsearch/hosts');
-        return ClientBuilder::create()->setHosts($hosts)->build();
+        return ClientBuilder::create()->setHosts([$this->url])->build();
     }
 }

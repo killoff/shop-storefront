@@ -9,13 +9,16 @@ use Drinks\Storefront\Routing\RequestMatcher;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 
 class App
 {
     public function run(): void
     {
-        AppDir::init();
+        if (!defined('STOREFRONT_DIR')) {
+            define('STOREFRONT_DIR', dirname(__DIR__));
+        }
 
         $request = Request::createFromGlobals();
         /** @var RequestMatcher $matcher */
@@ -41,10 +44,13 @@ class App
 
     private function getContainer(): ContainerBuilder
     {
+        $dotenv = new Dotenv();
+        $dotenv->loadEnv(STOREFRONT_DIR . '/.env');
+
         $containerBuilder = new ContainerBuilder();
-        $loader = new YamlFileLoader($containerBuilder, new FileLocator(dirname(__DIR__) . '/config'));
+        $loader = new YamlFileLoader($containerBuilder, new FileLocator(STOREFRONT_DIR . '/config'));
         $loader->load('services.yaml');
-        $containerBuilder->compile();
+        $containerBuilder->compile(true);
         return $containerBuilder;
     }
 }

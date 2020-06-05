@@ -15,3 +15,11 @@ services:
             - '@Drinks\Storefront\RequestHandler\Category'
             - '@Drinks\Storefront\RequestHandler\Cms'
             - '@Drinks\Storefront\RequestHandler\Product'
+
+    Drinks\Storefront\Factory\ElasticsearchFactory:
+        arguments:
+            $url: '%env(string:ELASTIC_URL)%'
+
+    Drinks\Storefront\Factory\RedisFactory:
+        arguments:
+            $uri: '%env(string:REDIS_URI)%'

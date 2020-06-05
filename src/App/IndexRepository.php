@@ -2,16 +2,18 @@
 
 namespace Drinks\Storefront\App;
 
+use Drinks\Storefront\Repository\ElasticIndicesRepository;
+
 class IndexRepository
 {
     /**
-     * @var Config
+     * @var ElasticIndicesRepository
      */
-    private $config;
+    private $elasticIndicesRepository;
 
-    public function __construct(Config $config)
+    public function __construct(ElasticIndicesRepository $elasticIndicesRepository)
     {
-        $this->config = $config;
+        $this->elasticIndicesRepository = $elasticIndicesRepository;
     }
 
     public function lookupProductIndex($website, $locale)
@@ -31,7 +33,7 @@ class IndexRepository
 
     private function lookupIndex($website, $entity, $locale)
     {
-        $indices = $this->config->get('elasticsearch/indices');
+        $indices = $this->elasticIndicesRepository->getAll();
         if (isset($indices[$website][$entity][$locale])) {
             return $indices[$website][$entity][$locale];
         }
