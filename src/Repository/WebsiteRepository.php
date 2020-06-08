@@ -13,7 +13,7 @@ class WebsiteRepository
     private $config = [
         'drink_ch' => [
             'description' => 'Drinks Switzerland',
-            'theme' => 'drinks-ch-b2c',
+            'themes' => ['drinks-ch-b2c'],
             'hosts' => [
                 'drinks.ch',
                 'www.drinks.ch',
@@ -42,7 +42,7 @@ class WebsiteRepository
         ],
         'b2b_drink_ch' => [
             'description' => 'Drinks Switzerland B2B',
-            'theme' => 'drinks-ch-b2b',
+            'themes' => ['drinks-ch-b2b', 'drinks-ch-b2c'],
             'hosts' => [
                 'business.drinks.ch',
                 'business.staging.drinks.ch',
@@ -66,7 +66,7 @@ class WebsiteRepository
         ],
         'b2c_drinks_de' => [
             'description' => 'Drinks Germany',
-            'theme' => 'drinks-de-b2c',
+            'themes' => ['drinks-de-b2c'],
             'hosts' => [
                 'drinks.de',
                 'www.drinks.de',
@@ -78,7 +78,7 @@ class WebsiteRepository
         ],
         'b2b_drinks_de' => [
             'description' => 'Drinks Germany B2B',
-            'theme' => 'drinks-de-b2b',
+            'themes' => ['drinks-de-b2b'],
             'hosts' => [
                 'business.drinks.de',
                 'business.staging.drinks.de',
@@ -95,6 +95,11 @@ class WebsiteRepository
     public function getAll(): array
     {
         return $this->config;
+    }
+
+    public function getWebsiteThemes(string $websiteCode): array
+    {
+        return $this->config[$websiteCode]['themes'];
     }
 
     public function getWebsiteByHost($host): string

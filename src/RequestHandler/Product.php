@@ -5,7 +5,6 @@ namespace Drinks\Storefront\RequestHandler;
 use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
 use Drinks\Storefront\Repository\WebsiteRepository;
-use Drinks\Storefront\RequestHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class Product implements RequestHandlerInterface

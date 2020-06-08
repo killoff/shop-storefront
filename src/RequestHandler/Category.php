@@ -6,7 +6,6 @@ use Drinks\Storefront\Factory\ElasticsearchFactory;
 use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
 use Drinks\Storefront\Repository\WebsiteRepository;
-use Drinks\Storefront\RequestHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class Category implements RequestHandlerInterface
@@ -71,7 +70,7 @@ class Category implements RequestHandlerInterface
 
         $hits = $this->elasticsearchFactory->create()->search($params)['hits']['hits'];
         $products = array_column($hits, '_source');
-        $twig = $this->twigFactory->create();
+        $twig = $this->twigFactory->create($request);
         $content = $twig->render(
             'category/view.twig',
             [

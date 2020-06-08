@@ -2,9 +2,12 @@
 
 namespace Drinks\Storefront\Factory;
 
+use Drinks\Storefront\Factory\Symfony\Bridge\Twig\Extension\TranslationExtensionFactory;
 use Drinks\Storefront\Factory\Twig\EnvironmentFactory;
 use Drinks\Storefront\Factory\Twig\Loader\ChainLoaderFactory;
 use Drinks\Storefront\Factory\Twig\Loader\FilesystemLoaderFactory;
+use Drinks\Storefront\Repository\WebsiteRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
 
 class TwigFactory
@@ -24,24 +27,55 @@ class TwigFactory
      */
     private $environmentFactory;
 
+    /**
+     * @var TranslatorFactory
+     */
+    private $translatorFactory;
+
+    /**
+     * @var TranslationExtensionFactory
+     */
+    private $translationExtensionFactory;
+
+    /**
+     * @var WebsiteRepository
+     */
+    private $websiteRepository;
+
+    /**
+     * @var string
+     */
+    private $compileCachePath;
+
     public function __construct(
         FilesystemLoaderFactory $filesystemLoaderFactory,
         ChainLoaderFactory $chainLoaderFactory,
-        EnvironmentFactory $environmentFactory
+        EnvironmentFactory $environmentFactory,
+        TranslatorFactory $translatorFactory,
+        TranslationExtensionFactory $translationExtensionFactory,
+        WebsiteRepository $websiteRepository,
+        string $compileCachePath
     ) {
         $this->filesystemLoaderFactory = $filesystemLoaderFactory;
         $this->chainLoaderFactory = $chainLoaderFactory;
         $this->environmentFactory = $environmentFactory;
+        $this->translatorFactory = $translatorFactory;
+        $this->translationExtensionFactory = $translationExtensionFactory;
+        $this->compileCachePath = $compileCachePath;
+        $this->websiteRepository = $websiteRepository;
     }
 
-    public function create(): Environment
+    public function create(Request $request): Environment
     {
-        $loader = $this->chainLoaderFactory->create([
-            $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/drinks-ch-b2c'),
-            $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/default')
-        ]);
-        return $this->environmentFactory->create($loader, [
-//            'cache' => '/path/to/compilation_cache',
-        ]);
+        $loaders = [];
+        foreach ($this->websiteRepository->getWebsiteThemes($request->query->get('website')) as $theme) {
+            $loaders[] = $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/' . $theme);
+        }
+        $loaders[] = $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/default');
+        $loader = $this->chainLoaderFactory->create($loaders);
+        $twigEnv = $this->environmentFactory->create($loader, ['cache' => $this->compileCachePath]);
+        $translator = $this->translatorFactory->create($request->query->get('locale'));
+        $twigEnv->addExtension($this->translationExtensionFactory->create($translator));
+        return $twigEnv;
     }
 }

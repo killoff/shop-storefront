@@ -10,7 +10,7 @@ services:
         resource: '../src/*'
         exclude: '../src/{App.php}'
 
-    Drinks\Storefront\RequestHandlersPool:
+    Drinks\Storefront\RequestHandler\RequestHandlersPool:
         arguments:
             - '@Drinks\Storefront\RequestHandler\Category'
             - '@Drinks\Storefront\RequestHandler\Cms'
@@ -23,3 +23,7 @@ services:
     Drinks\Storefront\Factory\RedisFactory:
         arguments:
             $uri: '%env(string:REDIS_URI)%'
+
+    Drinks\Storefront\Factory\TwigFactory:
+        arguments:
+            $compileCachePath: '%env(string:TWIG_COMPILE_CACHE_PATH)%'

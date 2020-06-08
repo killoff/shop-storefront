@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Drink home</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:1234/css/style.css" />
+</head>
+<body class="pb-16 sm:pb-0">
+<h1>{% trans %}Welcome{% endtrans %}</h1>
+<div class="wrap">
+
+    {% include 'page/header.twig' %}
+
+    <header class="border-b border-gray-200 md:border-none">
+        <div class="flex flex-wrap container py-2 md:py-6 items-center">
+            <a href="/">
+                <svg class="hidden sm:block" height="40" width="188" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 282.07 59.89">
+                    <path d="M129.83 22.05v36.47a1.43 1.43 0 01-1.5 1.37h-12.88a1.43 1.43 0 01-1.52-1.37V22.05a7.26 7.26 0 015-6.75V.63a.67.67 0 01.71-.63h4.57a.65.65 0 01.68.63v14.64a7.26 7.26 0 014.94 6.78zM30.08 43.14v-25.8c0-5.28-1.22-9.38-3.63-12.37S19.79.47 13.79.47H0v59.42h13.78q9 0 12.66-4.47t3.64-12.28zm-9.72-1.66a20.82 20.82 0 01-1.12 7c-.74 2.1-2.91 3.18-6.52 3.18h-3V8.83h3c3.62 0 5.78 1.05 6.52 3.09a20.16 20.16 0 011.12 7V41.5zM88.54 59.9l-7.45-27.15a12.68 12.68 0 005.33-6.57 28.56 28.56 0 001.15-8.31q0-7.91-3.37-12.66C81.92 2.06 77.66.49 71.39.49H57.78v59.42h9.76V35.15h4.55L78.3 59.9h10.24zm-10.69-42v1.39c0 .51-.09 1-.13 1.49a11.8 11.8 0 01-.39 1.91 15.51 15.51 0 01-.68 1.73 3.81 3.81 0 01-2.51 2.07 16.14 16.14 0 01-3.47.33h-3.13V8.83h3.09a21.51 21.51 0 013.47.3 3.83 3.83 0 012.44 2.14 15.29 15.29 0 01.68 1.74 11.19 11.19 0 01.39 1.9c0 .56.1 1 .13 1.53s.09.95.09 1.42zm110.8 42V.47h-9.11v35.27L166.25.47h-9.82v59.42h9V23.22l14 36.68h9.13zm60.58 0l-12.69-38.75L247.71.48h-10.17l-11.37 23.79V.47h-9.73v59.42h9.73V40.58l4.49-8.28 8.25 27.6h10.3zm32.84-10.03a10 10 0 10-10 10 10 10 0 0010-10z" fill="#171d29">
+                        <path d="M271.24 51.61v.66a2.79 2.79 0 01-.08.55 2.33 2.33 0 01-.11.38 2.93 2.93 0 01-.19.4 2 2 0 01-.91.82 3.11 3.11 0 01-1.32.28 3.17 3.17 0 01-1.08-.18 2.58 2.58 0 01-.89-.56 2 2 0 01-.59-1.13 8.84 8.84 0 01-.08-1.25v-3.56a8.68 8.68 0 01.08-1.25 2 2 0 01.59-1.12 2.39 2.39 0 01.88-.57 3.05 3.05 0 011.08-.19 3.15 3.15 0 011.29.26 2.18 2.18 0 01.94.79l.07.12.06.11a2 2 0 01.22.75v1.26h-1.66v-.91a1.65 1.65 0 00-.2-.72.77.77 0 00-.74-.33.82.82 0 00-.63.23 1 1 0 00-.26.56v.31a2.74 2.74 0 000 .32v4.28a2.78 2.78 0 000 .32v.31a1.13 1.13 0 00.26.57.78.78 0 00.63.25.74.74 0 00.68-.29 1.69 1.69 0 00.23-.63 2.07 2.07 0 010-.22v-1.06h1.7v.42zm5.04 2.96v-4.3h-1.86v4.31h-1.68v-9.52h1.68v3.89h1.86v-3.89h1.68v9.52h-1.68z">
+                </svg>
+                <svg class="sm:hidden" xmlns="https://www.w3.org/2000/svg" width="27" height="38" viewBox="0 0 42.14 59.89">
+                    <path d="M15.89 22.05v36.47a1.43 1.43 0 01-1.5 1.37H1.51a1.43 1.43 0 01-1.52-1.37V22.05a7.26 7.26 0 015-6.75V.63A.67.67 0 015.7 0h4.57a.65.65 0 01.68.63v14.64a7.26 7.26 0 014.94 6.78zm26.24 27.82a10 10 0 10-10 10 10 10 0 0010-10z" fill="#171d29"/>
+                    <path d="M31.3 51.61v.66a2.79 2.79 0 01-.08.55 2.33 2.33 0 01-.11.38 2.93 2.93 0 01-.19.4 2 2 0 01-.91.82 3.11 3.11 0 01-1.32.28 3.17 3.17 0 01-1.08-.18 2.58 2.58 0 01-.89-.56 2 2 0 01-.59-1.13 8.84 8.84 0 01-.09-1.25v-3.56a8.68 8.68 0 01.09-1.25 2 2 0 01.59-1.12 2.39 2.39 0 01.88-.57 3.05 3.05 0 011.08-.19 3.15 3.15 0 011.29.26 2.18 2.18 0 01.94.79l.07.12.06.11a2 2 0 01.22.75v1.26H29.6v-.91a1.65 1.65 0 00-.2-.72.77.77 0 00-.74-.33.82.82 0 00-.63.23 1 1 0 00-.26.56v.31a2.74 2.74 0 000 .32v4.28a2.78 2.78 0 000 .32v.31a1.13 1.13 0 00.26.57.78.78 0 00.63.25.74.74 0 00.68-.29 1.69 1.69 0 00.23-.63 2.07 2.07 0 010-.22v-1.06h1.7v.42zm5.04 2.96v-4.3h-1.86v4.31H32.8v-9.52h1.68v3.89h1.86v-3.89h1.68v9.52h-1.68z" fill="#fff"/>
+                </svg>
+            </a>
+            <div class="flex-1 pl-10">
+                <input
+                        type="text"
+                        class="border border-b-2 border-gray-500 pl-10 h-10 w-48 w-full"
+                />
+            </div>
+            <ul class="flex items-center justify-between border-t border-gray-200 sm:border-none p-2 sm:pt-4 sm:px-4 sm:pb-0 md:p-0 bg-white w-full md:w-auto md:pl-10 fixed left-0 bottom-0 sm:static z-50">
+                <li class="md:hidden px-4">
+                    <a
+                            class="text-gray-500 text-xs uppercase hover:text-primary-light"
+                            href="https://www.drink.ch/de/customer/account/"
+                            rel="nofollow"
+                    >
+                        <svg class="m-auto block" height="21" width="21" viewBox="0 0 32 32">
+                            <path d="M3.2 6.4h25.6v1.6h-25.6v-1.6z"></path>
+                            <path d="M3.2 14.4h25.6v1.6h-25.6v-1.6z"></path>
+                            <path d="M3.2 22.4h25.6v1.6h-25.6v-1.6z"></path>
+                        </svg>
+                        Menu
+                    </a>
+                </li>
+                <li class="px-4">
+                    <a
+                            class="text-gray-500 text-xs uppercase hover:text-primary-light"
+                            href="https://www.drink.ch/de/customer/account/"
+                            rel="nofollow"
+                    >
+                        <svg class="m-auto block" height="21" width="20" viewBox="0 0 34 32">
+                            <path
+                                    d="M16.674 17.432c4.604 0 8.337-3.733 8.337-8.337s-3.733-8.337-8.337-8.337c-4.604 0-8.337 3.733-8.337 8.337s3.733 8.337 8.337 8.337zM16.674 15.579c-3.581 0-6.484-2.903-6.484-6.484s2.903-6.484 6.484-6.484c3.581 0 6.484 2.903 6.484 6.484s-2.903 6.484-6.484 6.484z"
+                            ></path>
+                            <path
+                                    d="M3.438 30.478c1.283-7.217 6.856-12.373 13.404-12.373 6.532 0 12.116 5.305 13.403 12.706l1.825-0.317c-1.434-8.245-7.745-14.241-15.228-14.241-7.486 0-13.794 5.835-15.228 13.901l1.824 0.324z"
+                            ></path>
+                        </svg>
+                        Konto
+                    </a>
+                </li>
+                <li class="px-4">
+                    <a
+                            class="text-gray-500 text-xs uppercase hover:text-primary-light"
+                            href="https://www.drink.ch/de/wishlist/"
+                            rel="nofollow"
+                    >
+                        <svg class="m-auto block" height="21" width="20" viewBox="0 0 25 32">
+                            <path
+                                    d="M17.045 11.788l-0.017 16.943v2.543c0 0.408-0.357 0.731-0.804 0.731l-6.883-0.006c-0.459 0-0.81-0.323-0.81-0.731v-2.543l0.017-16.943c0-1.648 1.105-3.048 2.657-3.603l0.011-7.846c0-0.193 0.17-0.334 0.38-0.334h2.441c0.198 0 0.363 0.147 0.363 0.334l-0.011 7.84c1.558 0.561 2.657 1.966 2.657 3.614zM6.769 15.924l-0.011 13.476v2.028c0 0.323-0.283 0.583-0.64 0.583l-5.472-0.006c-0.363 0-0.646-0.261-0.646-0.583v-2.028l0.011-13.476c0-1.309 0.878-2.425 2.113-2.866l0.006-6.231c0-0.153 0.136-0.266 0.3-0.266h1.943c0.159 0 0.289 0.113 0.289 0.266l-0.006 6.231c1.241 0.442 2.119 1.563 2.113 2.872zM24.489 18.49l-0.011 11.324v1.705c0 0.272-0.238 0.487-0.538 0.487l-4.6-0.006c-0.306 0-0.538-0.215-0.538-0.487v-1.705l0.011-11.324c0-1.099 0.736-2.039 1.773-2.407l0.006-5.24c0-0.13 0.113-0.227 0.255-0.227h1.631c0.136 0 0.244 0.096 0.244 0.227l-0.006 5.24c1.037 0.374 1.773 1.309 1.773 2.413z"
+                            ></path>
+                        </svg>
+                        Meine Bar
+                    </a>
+                </li>
+                <li class="px-4">
+                    <a
+                            class="text-gray-500 text-xs uppercase hover:text-primary-light"
+                            href="https://www.drink.ch/de/checkout/cart/"
+                    >
+                        <svg class="m-auto block" height="21" width="24" viewBox="0 0 36 32">
+                            <path
+                                    d="M17.244 28.978c0 1.375-1.114 2.489-2.489 2.489s-2.489-1.114-2.489-2.489c0-1.375 1.114-2.489 2.489-2.489s2.489 1.114 2.489 2.489z"
+                            ></path>
+                            <path
+                                    d="M27.911 28.978c0 1.375-1.114 2.489-2.489 2.489s-2.489-1.114-2.489-2.489c0-1.375 1.114-2.489 2.489-2.489s2.489 1.114 2.489 2.489z"
+                            ></path>
+                            <path
+                                    d="M1.307 2.532l5.383 3.365 3.814 15.437h20.359l4.148-12.444h-19.011v1.778h16.544l-2.963 8.889h-17.686l-3.653-14.785-5.994-3.746z"
+                            ></path>
+                        </svg>
+                        <span class="hidden sm:inline">Mein</span> Warenkorb
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <nav class="bg-gray-100 relative hidden md:block">
+        <div class="container">
+            {% include 'page/nav.twig' %}
+        </div>
+    </nav>
+
+    <main class="pb-16" id="app">
+        <div>
+
+            <div class="container pt-6 md:pt-10">
+                <div class="text-xs flex items-center leading-none hidden">
+                    <a href="/" class="underline">Home</a>
+                    <span class="mx-2">/</span>
+                    <span class="text-gray-600">Whisky</span>
+                </div>
+
+
+                <div class="mb-0 relative">
+                    <h1 class="font-bold text-black-100 text-3xl md:text-4xl leading-none tracking-wide flex items-center">
+                        Whisky
+                    </h1>
+                </div>
+            </div>
+
+            <div class="mt-4 relative container">
+
+                <div class="flex flex-col-reverse md:flex-row-reverse relative">
+                    <div class="flex flex-wrap flex-auto sm:-ml-2">
+                        {% for product in products %}
+
+                            <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col sm:pl-2">
+                                <div class="pb-6 sm:pb-12 h-full bg-white">
+                                    <div class="flex flex-col flex-1 h-full">
+                                        <div class="py-2 sm:py-8 mb-4" style="background: #f8f8f8;">
+                                            <a href="/{{ product.attr.url_key }}.html">
+                                                <img class="mx-auto flex-none invert rounded-sm w-2/5 sm:w-full" alt="Yamazakura Fine Blended Whisky 70cl" height="300" width="300" src="{{ product.attr.name }}">
+                                            </a>
+                                        </div>
+                                        <div class="text-gray-600 flex justify-between items-center text-xs uppercase sm:px-4">
+                                            <div class="mb-1">
+                                                <span class="mr-1">An Lager</span>
+                                                <span class="text-gray-600 inline-block leading-relaxed text-xs px-1 rounded-sm bg-gray-100">31</span>
+                                            </div>
+                                        </div>
+
+                                        <h3 class="leading-snug text-base text-black tracking-wide mb-2 sm:mb-4 sm:px-4">
+                                            <a class="hover:text-black text-gray-700" href="/{{ product.attr.url_key }}.html">{{ product.attr.name }}</a>
+                                        </h3>
+
+                                        <div class="pt-1 flex items-center justify-between mt-auto sm:px-4">
+                                            <div>
+                                                <strong class="sm:text-xl font-semibold antialiased leading-none text-gray-700" style="color: rgba(0, 0, 0, 0.75);">Fr.&nbsp;{{ product.price.cg0.price }}</strong>
+                                                <div class="flex">
+                                                    <svg class="-m-px" height="12" width="68">
+                                                        <use xlink:href="#stars-5-0-star"></use>
+                                                    </svg>
+                                                    <span class="text-xs text-gray-500 leading-none ml-2">5</span>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <a href="#" class="btn-rounded shadow">
+                                                    <svg height="16" width="16" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 446.9 446.9">
+                                                        <path d="M444 93c-2-3-6-6-11-6L156 75a14 14 0 10-1 29l258 11-51 159H136L95 51c-1-5-4-9-9-11L20 14A14 14 0 009 41l60 23 41 227c1 6 7 11 14 11h7l-16 44a12 12 0 0012 16h11a43 43 0 1064 0h93c-6 8-11 18-11 29a43 43 0 1075-29h14a12 12 0 100-24H144l13-36h216c6 0 12-4 13-10l60-186c2-4 1-9-2-13zM170 410a19 19 0 110-38 19 19 0 010 38zm157 0a19 19 0 110-38 19 19 0 010 38z"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+                    <div class="sidebar">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="bg-gray-800 text-gray-600">
+        <div class="container">
+            <div class="flex flex-wrap text-xs leading-relaxed py-2 sm:py-0 md:-ml-8">
+                <div class="flex-none sm:px-8 my-4 md:my-8 w-full sm:w-1/2 md:w-1/4">
+                    <h5 class="text-primary-light text-base mb-2 font-semibold">
+                        Kontakt
+                    </h5>
+                    <address class="not-italic mb-6">
+                        DRINK.CH / Silverbogen AG<br>
+                        Eichstrasse 44<br>
+                        8152 Glattbrugg<br>
+                        Schweiz / Suisse
+                    </address>
+                    <p>
+                        <a href="mailto:info@drink.ch">info@drink.ch </a><br>
+                        +41 (0)44 520 09 09<br>
+                        Büroöffnungszeiten: Mo - Fr 09:00 - 12:00 / 13:30 - 17:00<br>
+                        <strong>Kein Verkauf vor Ort</strong><br>
+                        Keine Entgegennahme von Bestellungen per Telefon.
+                    </p>
+                </div>
+
+                <div class="flex-none sm:px-8 my-4 md:my-8 sm:border-gray-700 sm:border-l w-full sm:w-1/2 md:w-1/4">
+                    <h5 class="text-primary-light text-base mb-2 font-semibold">
+                        Hilfe
+                    </h5>
+                    <ul>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/rueckgabe/">Rückgabe</a></li>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/agb/">Allgemeine Geschäftsbedingungen</a></li>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/datenschutz/">Datenschutz</a></li>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/versandarten/" target="_self">Versandarten</a></li>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/impressum/" target="_self">Impressum</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex-none sm:px-8 my-4 md:my-8 sm:border-gray-700 md:border-l w-full sm:w-1/2 md:w-1/4">
+                    <h5 class="text-primary-light text-base mb-2 font-semibold">
+                        Über uns
+                    </h5>
+                    <ul>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/ueber-uns/">Über uns</a></li>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/standort/">Standort</a></li>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/business/">Geschäftskunden (B2B)</a></li>
+                        <li><a class="inline-block py-1" href="https://www.drink.ch/de/jobs/">Stellenangebote</a></li>
+                    </ul>
+                </div>
+
+                <div class="flex-none sm:px-8 my-4 md:my-8 sm:border-gray-700 sm:border-l w-full sm:w-1/2 md:w-1/4">
+                    <a href="#" class="inline-flex items-center justify-center mr-1 h-8 w-8 rounded-full text-gray-600 bg-gray-100">
+                        <svg xmlns="https://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                            <path d="M11,10h2.6l0.4-3H11V5.3c0-0.9,0.2-1.5,1.5-1.5H14V1.1c-0.3,0-1-0.1-2.1-0.1C9.6,1,8,2.4,8,5v2H5.5v3H8v8h3V10z"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#" class="inline-flex items-center justify-center mr-2 h-8 w-8 rounded-full text-gray-600 bg-gray-100">
+                        <svg xmlns="https://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                            <path d="M13.55,1H6.46C3.45,1,1,3.44,1,6.44v7.12c0,3,2.45,5.44,5.46,5.44h7.08c3.02,0,5.46-2.44,5.46-5.44V6.44 C19.01,3.44,16.56,1,13.55,1z M17.5,14c0,1.93-1.57,3.5-3.5,3.5H6c-1.93,0-3.5-1.57-3.5-3.5V6c0-1.93,1.57-3.5,3.5-3.5h8 c1.93,0,3.5,1.57,3.5,3.5V14z"></path>
+                            <circle cx="14.87" cy="5.26" r="1.09"></circle>
+                            <path d="M10.03,5.45c-2.55,0-4.63,2.06-4.63,4.6c0,2.55,2.07,4.61,4.63,4.61c2.56,0,4.63-2.061,4.63-4.61 C14.65,7.51,12.58,5.45,10.03,5.45L10.03,5.45L10.03,5.45z M10.08,13c-1.66,0-3-1.34-3-2.99c0-1.65,1.34-2.99,3-2.99s3,1.34,3,2.99 C13.08,11.66,11.74,13,10.08,13L10.08,13L10.08,13z"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="flex w-full sm:mx-8 py-6 border-t border-gray-700">
+                    <img class="mr-auto" height="19" width="102" src="https://www.drink.ch/skin/frontend/default/drink/img/icons/payment.png">
+                    <div>
+                        &copy; 2020
+                        <a href="https://www.drink.ch">DRINK.CH</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+{#  <script src="/js/api.js"></script>#}
+</html>

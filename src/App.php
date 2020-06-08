@@ -4,6 +4,7 @@ namespace Drinks\Storefront;
 
 use Drinks\Storefront\Exception\NoHandleFoundException;
 use Drinks\Storefront\Exception\NoMatchFoundException;
+use Drinks\Storefront\RequestHandler\RequestHandlersPool;
 use Drinks\Storefront\Routing\RequestDecorator;
 use Drinks\Storefront\Routing\RequestMatcher;
 use Symfony\Component\Config\FileLocator;

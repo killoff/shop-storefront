@@ -1,6 +1,6 @@
 <?php
 
-namespace Drinks\Storefront;
+namespace Drinks\Storefront\RequestHandler;
 
 class RequestHandlersPool
 {
