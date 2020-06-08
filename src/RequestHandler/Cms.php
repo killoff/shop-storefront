@@ -2,21 +2,16 @@
 
 namespace Drinks\Storefront\RequestHandler;
 
-use Drinks\Storefront\App\IndexRepository;
 use Drinks\Storefront\Factory\ElasticsearchFactory;
 use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
+use Drinks\Storefront\Repository\WebsiteRepository;
 use Drinks\Storefront\RequestHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class Cms implements RequestHandlerInterface
 {
     private const HANDLER_TYPE = 'cms-page';
-
-    /**
-     * @var IndexRepository
-     */
-    private $indexRepository;
 
     /**
      * @var ElasticsearchFactory
@@ -33,16 +28,21 @@ class Cms implements RequestHandlerInterface
      */
     private $responseFactory;
 
+    /**
+     * @var WebsiteRepository
+     */
+    private $websiteRepository;
+
     public function __construct(
-        IndexRepository $indexRepository,
         ElasticsearchFactory $elasticsearchFactory,
         TwigFactory $twigFactory,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        WebsiteRepository $websiteRepository
     ) {
-        $this->indexRepository = $indexRepository;
         $this->elasticsearchFactory = $elasticsearchFactory;
         $this->twigFactory = $twigFactory;
         $this->responseFactory = $responseFactory;
+        $this->websiteRepository = $websiteRepository;
     }
 
     public function canHandle(Request $request): bool
@@ -55,7 +55,7 @@ class Cms implements RequestHandlerInterface
     {
         $website = $request->query->get('website');
         $locale = $request->query->get('locale');
-        $esIndex = $this->indexRepository->lookupCmsPageIndex($website, $locale);
+        $esIndex = $this->websiteRepository->lookupCmsPageIndex($website, $locale);
         $params = [
             'index' => $esIndex,
             'type' => 'page',

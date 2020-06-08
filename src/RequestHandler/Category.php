@@ -2,21 +2,16 @@
 
 namespace Drinks\Storefront\RequestHandler;
 
-use Drinks\Storefront\App\IndexRepository;
 use Drinks\Storefront\Factory\ElasticsearchFactory;
 use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
+use Drinks\Storefront\Repository\WebsiteRepository;
 use Drinks\Storefront\RequestHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class Category implements RequestHandlerInterface
 {
     private const HANDLER_TYPE = 'category';
-
-    /**
-     * @var IndexRepository
-     */
-    private $indexRepository;
 
     /**
      * @var ElasticsearchFactory
@@ -33,16 +28,21 @@ class Category implements RequestHandlerInterface
      */
     private $responseFactory;
 
+    /**
+     * @var WebsiteRepository
+     */
+    private $websiteRepository;
+
     public function __construct(
-        IndexRepository $indexRepository,
         ElasticsearchFactory $elasticsearchFactory,
         TwigFactory $twigFactory,
-        ResponseFactory $responseFactory
+        ResponseFactory $responseFactory,
+        WebsiteRepository $websiteRepository
     ) {
-        $this->indexRepository = $indexRepository;
         $this->elasticsearchFactory = $elasticsearchFactory;
         $this->twigFactory = $twigFactory;
         $this->responseFactory = $responseFactory;
+        $this->websiteRepository = $websiteRepository;
     }
 
     public function canHandle(Request $request): bool
@@ -52,11 +52,10 @@ class Category implements RequestHandlerInterface
 
     public function handle(Request $request): void
     {
-        $indexRepository = $this->indexRepository;
         $website = $request->query->get('website');
         $locale = $request->query->get('locale');
-        $productIndex = $indexRepository->lookupProductIndex($website, $locale);
-        $categoryIndex = $indexRepository->lookupCategoryIndex($website, $locale);
+        $productIndex = $this->websiteRepository->lookupProductIndex($website, $locale);
+        $categoryIndex = $this->websiteRepository->lookupCategoryIndex($website, $locale);
         $params = [
             'index' => $productIndex,
             'type' => 'product',

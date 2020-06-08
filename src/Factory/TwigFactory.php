@@ -37,7 +37,7 @@ class TwigFactory
     public function create(): Environment
     {
         $loader = $this->chainLoaderFactory->create([
-            $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/b2b_drinks_ch'),
+            $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/drinks-ch-b2c'),
             $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/default')
         ]);
         return $this->environmentFactory->create($loader, [

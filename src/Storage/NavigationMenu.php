@@ -2,36 +2,42 @@
 
 namespace Drinks\Storefront\Storage;
 
-use Drinks\Storefront\App\IndexRepository;
 use Drinks\Storefront\Factory\ElasticsearchFactory;
 use Drinks\Storefront\Factory\TwigFactory;
+use Drinks\Storefront\Repository\WebsiteRepository;
 
 class NavigationMenu
 {
     const STARTING_LEVEL = 2;
-    /**
-     * @var IndexRepository
-     */
-    private $indexRepository;
+
     /**
      * @var TwigFactory
      */
     private $twigFactory;
+
     /**
      * @var ElasticsearchFactory
      */
     private $elasticsearchFactory;
 
-    public function __construct(IndexRepository $indexRepository, TwigFactory $twigFactory, ElasticsearchFactory $elasticsearchFactory)
-    {
-        $this->indexRepository = $indexRepository;
+    /**
+     * @var WebsiteRepository
+     */
+    private $websiteRepository;
+
+    public function __construct(
+        TwigFactory $twigFactory,
+        ElasticsearchFactory $elasticsearchFactory,
+        WebsiteRepository $websiteRepository
+    ) {
         $this->twigFactory = $twigFactory;
         $this->elasticsearchFactory = $elasticsearchFactory;
+        $this->websiteRepository = $websiteRepository;
     }
 
     public function regenerateForWebsite($website, $locale)
     {
-        $categoriesIndex = $this->indexRepository->lookupCategoryIndex($website, $locale);
+        $categoriesIndex = $this->websiteRepository->lookupCategoryIndex($website, $locale);
         $firstLevel = $this->getCategories(
             $categoriesIndex,
             [
@@ -103,5 +109,4 @@ class NavigationMenu
         $hits = $this->elasticsearchFactory->create()->search($params)['hits']['hits'];
         return array_column($hits, '_source');
     }
-
 }
