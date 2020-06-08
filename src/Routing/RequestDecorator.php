@@ -20,9 +20,11 @@ class RequestDecorator
     public function decorate(Request $request, string $jsonData): void
     {
         $decodedData = json_decode($jsonData, true);
-        $request->query->set('website', $this->websiteRepository->getWebsiteByHost($request->getHost()));
+        $websiteCode = $this->websiteRepository->getWebsiteByHost($request->getHost());
+        $request->query->set('website', $websiteCode);
         $request->query->set('entity', $decodedData['entity']);
         $request->query->set('entity_id', $decodedData['entity_id']);
         $request->query->set('locale', $decodedData['locale']);
+        $request->query->set('twig_themes', $this->websiteRepository->getWebsiteThemes($websiteCode));
     }
 }

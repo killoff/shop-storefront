@@ -38,11 +38,6 @@ class TwigFactory
     private $translationExtensionFactory;
 
     /**
-     * @var WebsiteRepository
-     */
-    private $websiteRepository;
-
-    /**
      * @var string
      */
     private $compileCachePath;
@@ -53,7 +48,6 @@ class TwigFactory
         EnvironmentFactory $environmentFactory,
         TranslatorFactory $translatorFactory,
         TranslationExtensionFactory $translationExtensionFactory,
-        WebsiteRepository $websiteRepository,
         string $compileCachePath
     ) {
         $this->filesystemLoaderFactory = $filesystemLoaderFactory;
@@ -62,13 +56,12 @@ class TwigFactory
         $this->translatorFactory = $translatorFactory;
         $this->translationExtensionFactory = $translationExtensionFactory;
         $this->compileCachePath = $compileCachePath;
-        $this->websiteRepository = $websiteRepository;
     }
 
     public function create(Request $request): Environment
     {
         $loaders = [];
-        foreach ($this->websiteRepository->getWebsiteThemes($request->query->get('website')) as $theme) {
+        foreach ($request->query->get('twig_themes') as $theme) {
             $loaders[] = $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/' . $theme);
         }
         $loaders[] = $this->filesystemLoaderFactory->create(STOREFRONT_DIR . '/templates/default');
