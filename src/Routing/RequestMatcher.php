@@ -19,19 +19,28 @@ class RequestMatcher
      */
     private $websiteRepository;
 
-    public function __construct(RedisFactory $redisFactory, WebsiteRepository $websiteRepository)
+    /**
+     * @var Stopwatch
+     */
+    private $stopwatch;
+
+    public function __construct(RedisFactory $redisFactory, WebsiteRepository $websiteRepository, Stopwatch $stopwatch)
     {
         $this->redisFactory = $redisFactory;
         $this->websiteRepository = $websiteRepository;
+        $this->stopwatch = $stopwatch;
     }
 
     public function match(Request $request): ?string
     {
+        $this->stopwatch->start(__METHOD__, __METHOD__);
         $redisKey = sprintf(
             'url:%s:%s',
             $this->websiteRepository->getWebsiteByHost($request->getHost()),
             $request->getPathInfo()
         );
-        return $this->redisFactory->create()->get($redisKey);
+        $value = $this->redisFactory->create()->get($redisKey);
+        $this->stopwatch->stop(__METHOD__);
+        return $value;
     }
 }

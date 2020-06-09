@@ -6,6 +6,7 @@ use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
 use Drinks\Storefront\Repository\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Product implements RequestHandlerInterface
 {
@@ -41,7 +42,7 @@ class Product implements RequestHandlerInterface
         return $request->query->get('entity') === self::HANDLER_TYPE;
     }
 
-    public function handle(Request $request): void
+    public function handle(Request $request): Response
     {
 //        $params = [
 //            'index' => 'magento2_ch_de_catalog_product',
@@ -63,6 +64,6 @@ class Product implements RequestHandlerInterface
             ]);
         $response = $this->responseFactory->create();
         $response->setContent($content);
-        $response->send();
+        return $response;
     }
 }

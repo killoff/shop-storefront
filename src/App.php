@@ -8,50 +8,115 @@ use Drinks\Storefront\RequestHandler\RequestHandlersPool;
 use Drinks\Storefront\Routing\RequestDecorator;
 use Drinks\Storefront\Routing\RequestMatcher;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class App
 {
+    /**
+     * @var Container
+     */
+    private $container;
+
+    /**
+     * @var Request
+     */
+    private $request;
+
     public function run(): void
     {
-        if (!defined('STOREFRONT_DIR')) {
-            define('STOREFRONT_DIR', dirname(__DIR__));
-        }
-
-        $request = Request::createFromGlobals();
-        /** @var RequestMatcher $matcher */
-        $matcher = $this->getContainer()->get(RequestMatcher::class);
-        $matchResult = $matcher->match($request);
-        if ($matchResult === null) {
-            throw new NoMatchFoundException('Request could not be matched.');
-        }
-        /** @var RequestDecorator $requestDecorator */
-        $requestDecorator = $this->getContainer()->get(RequestDecorator::class);
-        $requestDecorator->decorate($request, $matchResult);
-
+        $this->init();
         /** @var RequestHandlersPool $handlersPool */
         $handlersPool = $this->getContainer()->get(RequestHandlersPool::class);
         foreach ($handlersPool->getAll() as $handler) {
-            if ($handler->canHandle($request)) {
-                $handler->handle($request);
+            if ($handler->canHandle($this->request)) {
+                $response = $handler->handle($this->request);
+                $this->dumpStopwatch($response);
+                $response->send();
                 break;
             }
         }
         throw new NoHandleFoundException('Request could not be handled.');
     }
 
-    private function getContainer(): ContainerBuilder
+    private function init(): void
     {
-        $dotenv = new Dotenv();
-        $dotenv->loadEnv(STOREFRONT_DIR . '/.env');
+        if (!defined('STOREFRONT_DIR')) {
+            define('STOREFRONT_DIR', dirname(__DIR__));
+        }
 
-        $containerBuilder = new ContainerBuilder();
-        $loader = new YamlFileLoader($containerBuilder, new FileLocator(STOREFRONT_DIR . '/config'));
-        $loader->load('services.yaml');
-        $containerBuilder->compile(true);
-        return $containerBuilder;
+        /** @var Stopwatch $stopwatch */
+        $stopwatch = $this->getContainer()->get(Stopwatch::class);
+        $stopwatch->start(__METHOD__, __METHOD__);
+
+        $this->request = Request::createFromGlobals();
+        /** @var RequestMatcher $matcher */
+        $matcher = $this->getContainer()->get(RequestMatcher::class);
+        $matchResult = $matcher->match($this->request);
+        if ($matchResult === null) {
+            throw new NoMatchFoundException('Request could not be matched.');
+        }
+        /** @var RequestDecorator $requestDecorator */
+        $requestDecorator = $this->getContainer()->get(RequestDecorator::class);
+        $requestDecorator->decorate($this->request, $matchResult);
+
+        $stopwatch->stop(__METHOD__);
+    }
+
+    private function getContainer(): Container
+    {
+        if (null === $this->container) {
+            $dotenv = new Dotenv();
+            $dotenv->loadEnv(STOREFRONT_DIR . '/.env');
+
+            $cachedContainerFile = $_ENV['DI_CACHE_PATH'] .'/container.php';
+
+            if (!file_exists($cachedContainerFile)) {
+                $containerBuilder = new ContainerBuilder();
+                $loader = new YamlFileLoader($containerBuilder, new FileLocator(STOREFRONT_DIR . '/config'));
+                $loader->load('services.yaml');
+                $containerBuilder->compile(true);
+
+                $dumper = new PhpDumper($containerBuilder);
+                file_put_contents(
+                    $cachedContainerFile,
+                    $dumper->dump([
+                        'class' => 'CachedContainer',
+                        'namespace' => 'Drinks\Storefront',
+                    ])
+                );
+            }
+            require_once $cachedContainerFile;
+            $this->container = new CachedContainer();
+        }
+        return $this->container;
+    }
+
+    private function dumpStopwatch(Response $response): void
+    {
+        if (!$this->isDev()) {
+            return;
+        }
+
+        /** @var Stopwatch $stopwatch */
+        $stopwatch = $this->getContainer()->get(Stopwatch::class);
+        $performanceData = [];
+        foreach ($stopwatch->getSectionEvents('__root__') as $event) {
+            $performanceData[$event->getCategory()] = $event->getDuration();
+        }
+        $response->setContent(
+            $response->getContent() . '<pre>' . var_export($performanceData, true) . '</pre>'
+        );
+    }
+
+    private function isDev(): bool
+    {
+        return isset($_ENV['APP_ENV']) && ($_ENV['APP_ENV'] === 'dev');
     }
 }

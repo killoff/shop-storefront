@@ -7,6 +7,8 @@ use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
 use Drinks\Storefront\Repository\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class Category implements RequestHandlerInterface
 {
@@ -32,16 +34,23 @@ class Category implements RequestHandlerInterface
      */
     private $websiteRepository;
 
+    /**
+     * @var Stopwatch
+     */
+    private $stopwatch;
+
     public function __construct(
         ElasticsearchFactory $elasticsearchFactory,
         TwigFactory $twigFactory,
         ResponseFactory $responseFactory,
-        WebsiteRepository $websiteRepository
+        WebsiteRepository $websiteRepository,
+        Stopwatch $stopwatch
     ) {
         $this->elasticsearchFactory = $elasticsearchFactory;
         $this->twigFactory = $twigFactory;
         $this->responseFactory = $responseFactory;
         $this->websiteRepository = $websiteRepository;
+        $this->stopwatch = $stopwatch;
     }
 
     public function canHandle(Request $request): bool
@@ -49,8 +58,37 @@ class Category implements RequestHandlerInterface
         return $request->query->get('entity') === self::HANDLER_TYPE;
     }
 
-    public function handle(Request $request): void
+    public function handle(Request $request): Response
     {
+        $this->stopwatch->start(__METHOD__, __METHOD__);
+        $products = $this->getCategoryProducts($request);
+        $content = $this->render($request, $products);
+        $response = $this->responseFactory->create();
+        $response->setContent($content);
+        $this->stopwatch->stop(__METHOD__);
+        return $response;
+    }
+
+    private function render(Request $request, array $products): string
+    {
+        $this->stopwatch->start(__METHOD__, __METHOD__);
+        $twig = $this->twigFactory->create($request);
+        $content = $twig->render(
+            'category/view.twig',
+            [
+                'product' => [
+                    'name' => 'Gin Mare'
+                ],
+                'products' => $products
+            ]);
+
+        $this->stopwatch->stop(__METHOD__);
+        return $content;
+    }
+
+    private function getCategoryProducts(Request $request): array
+    {
+        $this->stopwatch->start(__METHOD__, __METHOD__);
         $website = $request->query->get('website');
         $locale = $request->query->get('locale');
         $productIndex = $this->websiteRepository->lookupProductIndex($website, $locale);
@@ -67,20 +105,9 @@ class Category implements RequestHandlerInterface
                 ]
             ]
         ];
-
         $hits = $this->elasticsearchFactory->create()->search($params)['hits']['hits'];
         $products = array_column($hits, '_source');
-        $twig = $this->twigFactory->create($request);
-        $content = $twig->render(
-            'category/view.twig',
-            [
-                'product' => [
-                    'name' => 'Gin Mare'
-                ],
-                'products' => $products
-            ]);
-        $response = $this->responseFactory->create();
-        $response->setContent($content);
-        $response->send();
+        $this->stopwatch->stop(__METHOD__);
+        return $products;
     }
 }

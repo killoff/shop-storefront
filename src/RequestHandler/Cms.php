@@ -7,6 +7,7 @@ use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
 use Drinks\Storefront\Repository\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Cms implements RequestHandlerInterface
 {
@@ -50,7 +51,7 @@ class Cms implements RequestHandlerInterface
         return $request->query->get('entity') === self::HANDLER_TYPE;
     }
 
-    public function handle(Request $request): void
+    public function handle(Request $request): Response
     {
         $website = $request->query->get('website');
         $locale = $request->query->get('locale');
@@ -70,6 +71,6 @@ class Cms implements RequestHandlerInterface
             ]);
         $response = $this->responseFactory->create();
         $response->setContent($content);
-        $response->send();
+        return $response;
     }
 }
