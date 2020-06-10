@@ -75,7 +75,10 @@ class App
             $dotenv = new Dotenv();
             $dotenv->loadEnv(STOREFRONT_DIR . '/.env');
 
-            $cachedContainerFile = $_ENV['DI_CACHE_PATH'] .'/container.php';
+            if (!mkdir($concurrentDirectory = $_SERVER['DI_CACHE_PATH'], 0777, true) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+            $cachedContainerFile = $_SERVER['DI_CACHE_PATH'] .'/container.php';
 
             if (!file_exists($cachedContainerFile)) {
                 $containerBuilder = new ContainerBuilder();
@@ -117,6 +120,6 @@ class App
 
     private function isDev(): bool
     {
-        return isset($_ENV['APP_ENV']) && ($_ENV['APP_ENV'] === 'dev');
+        return isset($_SERVER['APP_ENV']) && ($_SERVER['APP_ENV'] === 'dev');
     }
 }
