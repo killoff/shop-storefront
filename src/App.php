@@ -39,10 +39,10 @@ class App
                 $response = $handler->handle($this->request);
                 $this->dumpStopwatch($response);
                 $response->send();
-                break;
+                return;
             }
         }
-        throw new NoHandleFoundException('Request could not be handled.');
+        throw new NoHandleFoundException('Request could not be handled.' . $_SERVER['REQUEST_URI']);
     }
 
     private function init(): void
@@ -75,7 +75,8 @@ class App
             $dotenv = new Dotenv();
             $dotenv->loadEnv(STOREFRONT_DIR . '/.env');
 
-            if (!mkdir($containerCacheDir = $_SERVER['DI_CACHE_PATH'], 0755, true) && !is_dir($containerCacheDir)) {
+            $containerCacheDir = $_SERVER['DI_CACHE_PATH'];
+            if (!is_dir($containerCacheDir) && !mkdir($containerCacheDir, 0755, true) && !is_dir($containerCacheDir)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $containerCacheDir));
             }
             $cachedContainerFile = $containerCacheDir .'/container.php';
