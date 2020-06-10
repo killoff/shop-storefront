@@ -75,7 +75,7 @@ class App
             $dotenv = new Dotenv();
             $dotenv->loadEnv(STOREFRONT_DIR . '/.env');
 
-            if (!mkdir($concurrentDirectory = $_SERVER['DI_CACHE_PATH'], 0777, true) && !is_dir($concurrentDirectory)) {
+            if (!mkdir($concurrentDirectory = $_SERVER['DI_CACHE_PATH'], 0755, true) && !is_dir($concurrentDirectory)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
             $cachedContainerFile = $_SERVER['DI_CACHE_PATH'] .'/container.php';
