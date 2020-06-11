@@ -15,6 +15,7 @@ services:
             - '@Drinks\Storefront\RequestHandler\Category'
             - '@Drinks\Storefront\RequestHandler\Cms'
             - '@Drinks\Storefront\RequestHandler\Product'
+            - '@Drinks\Storefront\RequestHandler\Search'
 
     Drinks\Storefront\Factory\ElasticsearchFactory:
         arguments:

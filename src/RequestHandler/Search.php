@@ -4,13 +4,13 @@ namespace Drinks\Storefront\RequestHandler;
 
 use Drinks\Storefront\Factory\Symfony\Component\HttpFoundation\ResponseFactory;
 use Drinks\Storefront\Factory\TwigFactory;
-use Drinks\Storefront\Repository\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Stopwatch\Stopwatch;
 
-class Product implements RequestHandlerInterface
+class Search implements RequestHandlerInterface
 {
-    public const HANDLER_TYPE = 'product';
+    public const HANDLER_TYPE = 'search';
 
     /**
      * @var TwigFactory
@@ -23,18 +23,18 @@ class Product implements RequestHandlerInterface
     private $responseFactory;
 
     /**
-     * @var WebsiteRepository
+     * @var Stopwatch
      */
-    private $websiteRepository;
+    private $stopwatch;
 
     public function __construct(
         TwigFactory $twigFactory,
         ResponseFactory $responseFactory,
-        WebsiteRepository $websiteRepository
+        Stopwatch $stopwatch
     ) {
         $this->twigFactory = $twigFactory;
         $this->responseFactory = $responseFactory;
-        $this->websiteRepository = $websiteRepository;
+        $this->stopwatch = $stopwatch;
     }
 
     public function canHandle(Request $request): bool
@@ -44,26 +44,12 @@ class Product implements RequestHandlerInterface
 
     public function handle(Request $request): Response
     {
-//        $params = [
-//            'index' => 'magento2_ch_de_catalog_product',
-//            'id' => $request->query->get('entity_id'),
-//            'type' => 'product',
-//        ];
-//
-//        $product = $this->serviceContainer->getElasticsearch()->get($params);
-//        print_r($product);
-//        exit;
-
-        $twig = $this->twigFactory->create();
-        $content = $twig->render(
-            'product/view.twig',
-            [
-                'product' => [
-                    'name' => 'Gin Mare'
-                ]
-            ]);
+        $this->stopwatch->start(__METHOD__, __METHOD__);
+//        $twig = $this->twigFactory->create($request);
+//        $content = $twig->render('search/page.twig');
         $response = $this->responseFactory->create();
-        $response->setContent($content);
+//        $response->setContent($content);
+        $this->stopwatch->stop(__METHOD__);
         return $response;
     }
 }

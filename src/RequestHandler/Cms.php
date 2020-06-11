@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Cms implements RequestHandlerInterface
 {
-    private const HANDLER_TYPE = 'cms-page';
+    public const HANDLER_TYPE = 'cms-page';
 
     /**
      * @var ElasticsearchFactory
@@ -48,7 +48,7 @@ class Cms implements RequestHandlerInterface
     public function canHandle(Request $request): bool
     {
         // todo: if page not found => Elasticsearch\Common\Exceptions\Missing404Exception thrown.
-        return $request->query->get('entity') === self::HANDLER_TYPE;
+        return $request->query->get('request_type') === self::HANDLER_TYPE;
     }
 
     public function handle(Request $request): Response

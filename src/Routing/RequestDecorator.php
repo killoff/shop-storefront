@@ -22,9 +22,15 @@ class RequestDecorator
         $decodedData = json_decode($jsonData, true);
         $websiteCode = $this->websiteRepository->getWebsiteByHost($request->getHost());
         $request->query->set('website', $websiteCode);
-        $request->query->set('entity', $decodedData['entity']);
-        $request->query->set('entity_id', $decodedData['entity_id']);
-        $request->query->set('locale', $decodedData['locale']);
         $request->query->set('twig_themes', $this->websiteRepository->getWebsiteThemes($websiteCode));
+        if (isset($decodedData['entity'])) {
+            $request->query->set('request_type', $decodedData['entity']);
+        }
+        if (isset($decodedData['entity_id'])) {
+            $request->query->set('entity_id', $decodedData['entity_id']);
+        }
+        if (isset($decodedData['locale'])) {
+            $request->query->set('locale', $decodedData['locale']);
+        }
     }
 }

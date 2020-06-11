@@ -12,7 +12,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class Category implements RequestHandlerInterface
 {
-    private const HANDLER_TYPE = 'category';
+    public const HANDLER_TYPE = 'category';
 
     /**
      * @var ElasticsearchFactory
@@ -55,7 +55,7 @@ class Category implements RequestHandlerInterface
 
     public function canHandle(Request $request): bool
     {
-        return $request->query->get('entity') === self::HANDLER_TYPE;
+        return $request->query->get('request_type') === self::HANDLER_TYPE;
     }
 
     public function handle(Request $request): Response
