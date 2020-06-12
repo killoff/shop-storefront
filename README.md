@@ -1,7 +1,7 @@
 ### Standalone usage
 
 symfony server:start --document-root=www
-
+f
 
 ### Include in Magento
 ```
